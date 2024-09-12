@@ -1,0 +1,107 @@
+API format:
+
+
+TEST:
+/api/v1/test --- test
+
+
+User:
+/api/v1/users/registerUser   --- registerUser
+
+sample ip:
+{
+    "email": "user3@gmail.com",
+    "password": "user@3"
+}
+
+/api/v1/users/loginUser   --- loginUser
+
+sample ip:
+{
+    "email": "user3@gmail.com",
+    "password": "user@3"
+}
+
+BOOKS:
+
+/api/v1/ --- getAllBooks (GET)
+/api/v1/insertBook --- insertBook (POST)
+
+sample ip:
+{
+    "boofRefId": "NCERT-PHYEDU-9",
+    "name": "NCERT Physical Education Class 9",
+    "author": "NCERT",
+    "category": "Physical Education",
+    "rentPerDay": 15
+}
+
+
+/api/v1/books/HC-VERMA-1 --- get_:id_book(GET)  [pending]
+/api/v1/books/search?term=NCERT --- Search by name/term: (GET)
+/api/v1/books/rentRange?min=10&max=20 --- Search by rent range: (GET)
+/api/v1/books/filter?category=Science&term=Physics&minRent=0&maxRent=40 --- Advanced search: (GET) 
+
+
+
+TRANSACTIONS:
+
+/api/v1/transactions/issue --- issue book (POST)
+sample ip:
+{
+  "bookId":"66e2ad6c1a92d0ae33512fc2",
+  "userId":"66e2bcb2248e93fae21296a9"
+}
+
+/api/v1/transactions/return --- return book (POST)
+sample ip:
+{
+  "bookId":"66e2ad6c1a92d0ae33512fc2",
+  "userId":"66e2bcb2248e93fae21296a9"
+}
+
+/api/v1/transactions/bookHistory?bookName=NCERT Mathematics Class 10 --- bookHistory (GET)
+/api/v1/transactions/bookRent?bookName=NCERT Mathematics Class 10 --- getTotalRentBook(GET)
+/api/v1/transactions/bookIssued?userId=66e2bcb2248e93fae21296a9 --- getBooksIssuedToPerson(GET)
+/api/v1/transactions/bookDateRange?startDate=2024-09-12&endDate=2024-09-13 --- getBooksIssuedInDateRange(GET)
+
+DATA:
+
+Credentials:[
+    {
+        "email": "admin@gmail.com",
+        "password": "admin123"
+    },
+    {
+        "email": "user1@gmail.com",
+        "password": "user@1",
+
+    },
+    {
+        "email": "user2@gmail.com",
+        "password": "user@2"
+    },
+    {
+        "email": "user3@gmail.com",
+        "password": "user@3"
+    },
+    {
+        "email": "user4@gmail.com",
+        "password": "user@4"
+    },
+    {
+        "email": "user5@gmail.com",
+        "password": "user@5"
+    },
+]
+
+
+Books:[
+    {
+    "boofRefId": "NCERT-PHYEDU-9",
+    "name": "NCERT Physical Education Class 9",
+    "author": "NCERT",
+    "category": "Physical Education",
+    "rentPerDay": 15
+  }
+]
