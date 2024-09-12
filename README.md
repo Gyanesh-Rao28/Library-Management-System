@@ -233,4 +233,3 @@ Here are some example requests demonstrating how to use routes with parameters a
 
 ---
 
-For any additional information or support, please contact the API development team.
