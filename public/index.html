@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Management System API Documentation</title>
+  <style>
+    /* Add your CSS here or link to an external stylesheet */
+    body {
+      background-color: #ebf8ff;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    h1, h2, h3 {
+      color: #1e3a8a;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 24px;
+    }
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    p, ul, ol {
+      color: #1e40af;
+      margin-bottom: 16px;
+    }
+    a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    code {
+      background-color: #dbeafe;
+      padding: 2px 4px;
+      border-radius: 4px;
+      color: #1e3a8a;
+    }
+    .list-decimal {
+      list-style-type: decimal;
+      padding-left: 1rem;
+    }
+    .list-disc {
+      list-style-type: disc;
+      padding-left: 1rem;
+    }
+    .overflow-y-auto {
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+    }
+    .mb-8 {
+      margin-bottom: 32px;
+    }
+    .mb-6 {
+      margin-bottom: 24px;
+    }
+    .min-h-screen {
+      min-height: 100vh;
+    }
+    .p-6 {
+      padding: 24px;
+    }
+    .pr-4 {
+      padding-right: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mx-auto p-6 bg-blue-50 min-h-screen">
+    <h1 class="text-4xl font-bold mb-6 text-blue-900">Library Management System API Documentation</h1>
+
+    <div class="h-[calc(100vh-100px)] overflow-y-auto pr-4">
+      <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Table of Contents</h2>
+        <ol class="list-decimal list-inside">
+          <li><a href="#introduction" class="text-blue-600 hover:underline">Introduction</a></li>
+          <li><a href="#base-url" class="text-blue-600 hover:underline">Base URL</a></li>
+          <li><a href="#authentication" class="text-blue-600 hover:underline">Authentication</a></li>
+          <li><a href="#endpoints" class="text-blue-600 hover:underline">Endpoints</a></li>
+          <li><a href="#data-models" class="text-blue-600 hover:underline">Data Models</a></li>
+          <li><a href="#error-handling" class="text-blue-600 hover:underline">Error Handling</a></li>
+          <li><a href="#example-requests" class="text-blue-600 hover:underline">Example Requests</a></li>
+        </ol>
+      </section>
+
+      <hr class="my-6 border-blue-200" />
+
+      <section id="introduction" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Introduction</h2>
+        <p class="text-blue-900">This document provides documentation for the Library Management System API. The API allows users to register, login, manage books, and handle book transactions.</p>
+      </section>
+
+      <section id="base-url" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Base URL</h2>
+        <p class="text-blue-900">The base URL for all API endpoints is: <code class="bg-blue-100 p-1 rounded text-blue-800">/api/v1</code></p>
+      </section>
+
+      <section id="authentication" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Authentication</h2>
+        <p class="text-blue-900">Authentication is required for most endpoints. Use the login endpoint to obtain an authentication token.</p>
+      </section>
+
+      <section id="endpoints" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Endpoints</h2>
+        
+        <h3 class="text-xl font-semibold mt-4 mb-2 text-blue-700">Test</h3>
+        <ul class="list-disc list-inside ml-4 text-blue-900">
+          <li><strong>Test API:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/test</code></li>
+        </ul>
+
+        <h3 class="text-xl font-semibold mt-4 mb-2 text-blue-700">Users</h3>
+        <ul class="list-disc list-inside ml-4 text-blue-900">
+          <li><strong>Register User:</strong> POST <code class="bg-blue-100 p-1 rounded text-blue-800">/users/registerUser</code></li>
+          <li><strong>Login User:</strong> POST <code class="bg-blue-100 p-1 rounded text-blue-800">/users/loginUser</code></li>
+        </ul>
+
+        <h3 class="text-xl font-semibold mt-4 mb-2 text-blue-700">Books</h3>
+        <ul class="list-disc list-inside ml-4 text-blue-900">
+          <li><strong>Get All Books:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/</code></li>
+          <li><strong>Insert Book:</strong> POST <code class="bg-blue-100 p-1 rounded text-blue-800">/insertBook</code></li>
+          <li><strong>Get Book by ID:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/books/:id</code></li>
+          <li><strong>Search Books:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/books/search</code></li>
+          <li><strong>Search Books by Rent Range:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/books/rentRange</code></li>
+          <li><strong>Advanced Book Search:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/books/filter</code></li>
+        </ul>
+
+        <h3 class="text-xl font-semibold mt-4 mb-2 text-blue-700">Transactions</h3>
+        <ul class="list-disc list-inside ml-4 text-blue-900">
+          <li><strong>Issue Book:</strong> POST <code class="bg-blue-100 p-1 rounded text-blue-800">/transactions/issue</code></li>
+          <li><strong>Return Book:</strong> POST <code class="bg-blue-100 p-1 rounded text-blue-800">/transactions/return</code></li>
+          <li><strong>Get Book History:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/transactions/bookHistory</code></li>
+          <li><strong>Get Total Rent for Book:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/transactions/bookRent</code></li>
+          <li><strong>Get Books Issued to User:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/transactions/bookIssued</code></li>
+          <li><strong>Get Books Issued in Date Range:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/transactions/bookDateRange</code></li>
+        </ul>
+      </section>
+
+      <section id="data-models" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Data Models</h2>
+        
+        <h3 class="text-xl font-semibold mt-4 mb-2 text-blue-700">User</h3>
+        <ul class="list-disc list-inside ml-4 text-blue-900">
+          <li>email (string)</li>
+          <li>password (string)</li>
+        </ul>
+
+        <h3 class="text-xl font-semibold mt-4 mb-2 text-blue-700">Book</h3>
+        <ul class="list-disc list-inside ml-4 text-blue-900">
+          <li>boofRefId (string)</li>
+          <li>name (string)</li>
+          <li>author (string)</li>
+          <li>category (string)</li>
+          <li>rentPerDay (number)</li>
+        </ul>
+      </section>
+
+      <section id="error-handling" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Error Handling</h2>
+        <p class="text-blue-900">The API uses standard HTTP response codes to indicate the success or failure of requests. Detailed error messages are provided in the response body for debugging purposes.</p>
+      </section>
+
+      <section id="example-requests" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Example Requests</h2>
+        <p class="text-blue-900">Here are some example requests demonstrating how to use routes with parameters and queries:</p>
+        <ol class="list-decimal list-inside ml-4 text-blue-900">
+          <li>Get a specific book by ID:<br />
+            <code class="bg-blue-100 p-1 rounded text-blue-800">GET /api/v1/books/HC-VERMA-1</code>
+          </li>
+          <li>Search for books with a specific term:<br />
+            <code class="bg-blue-100 p-1 rounded text-blue-800">GET /api/v1/books/search?term=NCERT</code>
+          </li>
+          <li>Search for books within a rent range:<br />
+            <code class="bg-blue-100 p-1 rounded text-blue-800">GET /api/v1/books/rentRange?min=10&amp;max=20</code>
+          </li>
+          <li>Advanced book search:<br />
+            <code class="bg-blue-100 p-1 rounded text-blue-800">GET /api/v1/books/filter?category=Science&amp;term=Physics&amp;minRent=0&amp;maxRent=40</code>
+          </li>
+          <li>Get book history:<br />
+            <code class="bg-blue-100 p-1 rounded text-blue-800">GET /api/v1/transactions/bookHistory?bookName=NCERT Mathematics Class 10</code>
+          </li>
+          <li>Get books issued to a specific user:<br />
+            <code class="bg-blue-100 p-1 rounded text-blue-800">GET /api/v1/transactions/bookIssued?userId=66e2bcb2248e93fae21296a9</code>
+          </li>
+          <li>Get books issued within a date range:<br />
+            <code class="bg-blue-100 p-1 rounded text-blue-800">GET /api/v1/transactions/bookDateRange?startDate=2024-09-12&amp;endDate=2024-09-13</code>
+          </li>
+        </ol>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

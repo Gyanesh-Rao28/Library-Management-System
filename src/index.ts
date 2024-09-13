@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import path from 'path'; 
 
 import userRoutes from './routes/user.route'; 
 import bookRoutes from './routes/book.route';
@@ -19,7 +20,9 @@ mongoose.connect(process.env.MONGODB_URI as string)
     .then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.error('MongoDB connection error:', error));
 
-
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));  // Send the HTML file
+});
 
 
 app.use('/api/v1/test', (req, res) => {
