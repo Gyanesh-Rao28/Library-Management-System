@@ -1,207 +1,445 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Library Management System API Documentation</title>
-  <style>
-    /* Add your CSS here or link to an external stylesheet */
-    body {
-      background-color: #ebf8ff;
-      font-family: Arial, sans-serif;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-    h1, h2, h3 {
-      color: #1e3a8a;
-    }
-    h1 {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 24px;
-    }
-    h2 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      margin-bottom: 16px;
-    }
-    h3 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-top: 24px;
-      margin-bottom: 8px;
-    }
-    p, ul, ol {
-      color: #1e40af;
-      margin-bottom: 16px;
-    }
-    a {
-      color: #2563eb;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    code {
-      background-color: #dbeafe;
-      padding: 2px 4px;
-      border-radius: 4px;
-      color: #1e3a8a;
-    }
-    .list-decimal {
-      list-style-type: decimal;
-      padding-left: 1rem;
-    }
-    .list-disc {
-      list-style-type: disc;
-      padding-left: 1rem;
-    }
-    .overflow-y-auto {
-      max-height: calc(100vh - 100px);
-      overflow-y: auto;
-    }
-    .mb-8 {
-      margin-bottom: 32px;
-    }
-    .mb-6 {
-      margin-bottom: 24px;
-    }
-    .min-h-screen {
-      min-height: 100vh;
-    }
-    .p-6 {
-      padding: 24px;
-    }
-    .pr-4 {
-      padding-right: 16px;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library Management System API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background-color: #f5eded;
+            color: #6482ad;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: #e2dad6;
+            padding: 1rem;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-info {
+            font-size: 0.875rem;
+        }
+
+        .nav-info a {
+            color: #6482ad;
+            text-decoration: none;
+        }
+
+        .nav-info a:hover {
+            text-decoration: underline;
+        }
+
+        .main-content {
+            display: flex;
+            padding: 2rem 0;
+        }
+
+        aside {
+            width: 16rem;
+            padding-right: 2rem;
+        }
+
+        .sidebar-button {
+            width: 100%;
+            text-align: left;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-radius: 0.25rem;
+        }
+
+        .sidebar-button:hover {
+            background-color: #e2dad6;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            border: 1px solid #E2DAD6;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        th {
+            background-color: #E2DAD6;
+            font-weight: bold;
+        }
+
+        .endpoint {
+            margin-bottom: 2rem;
+        }
+
+        .route {
+            background-color: white;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.25rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+
+        .route h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .method {
+            color: #7fa1c3;
+            margin-right: 0.5rem;
+        }
+
+        code {
+            background-color: #e2dad6;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+        }
+
+        pre {
+            background-color: #e2dad6;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="container mx-auto p-6 bg-blue-50 min-h-screen">
-    <h1 class="text-4xl font-bold mb-6 text-blue-900">Library Management System API Documentation</h1>
+    <nav>
+        <div class="container nav-content">
+            <h1 class="nav-title">Library Management System API</h1>
+            <div class="nav-info">
+                <p>Devloped by - S Gyanesh Rao</p>
+                <p>gyaneshrao28@gmail.com</p>
+                <a href="https://github.com/Gyanesh-Rao28/">GitHub</a>
+                <span class="mx-2">|</span>
+                <a href="https://www.linkedin.com/in/gyanesh-rao-2b3927222/">LinkedIn</a>
+            </div>
+        </div>
+    </nav>
 
-    <div class="h-[calc(100vh-100px)] overflow-y-auto pr-4">
-      <section class="mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Table of Contents</h2>
-        <ol class="list-decimal list-inside">
-          <li><a href="#introduction" class="text-blue-600 hover:underline">Introduction</a></li>
-          <li><a href="#base-url" class="text-blue-600 hover:underline">Base URL</a></li>
-          <li><a href="#authentication" class="text-blue-600 hover:underline">Authentication</a></li>
-          <li><a href="#endpoints" class="text-blue-600 hover:underline">Endpoints</a></li>
-          <li><a href="#data-models" class="text-blue-600 hover:underline">Data Models</a></li>
-          <li><a href="#error-handling" class="text-blue-600 hover:underline">Error Handling</a></li>
-          <li><a href="#example-requests" class="text-blue-600 hover:underline">Example Requests</a></li>
-        </ol>
-      </section>
+    <div class="container main-content">
+        <aside>
+            <button class="sidebar-button" onclick="showSection('introduction')">
+                Introduction
+            </button>
+            <button class="sidebar-button" onclick="showSection('base-url')">
+                Base URL
+            </button>
+            <button class="sidebar-button" onclick="showSection('endpoints')">
+                Endpoints
+            </button>
+            <button class="sidebar-button" onclick="showSection('data-models')">
+                Data Models
+            </button>
+            <button class="sidebar-button" onclick="showSection('example-requests')">
+                Example Requests
+            </button>
+        </aside>
 
-      <hr class="my-6 border-blue-200" />
+        <main>
+            <section id="introduction">
+                <h2>Introduction</h2>
+                <p>
+                    This document provides documentation for the Library Management
+                    System API. The API allows users to register, login, manage books,
+                    and handle book transactions.
+                </p>
+            </section>
 
-      <section id="introduction" class="mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Introduction</h2>
-        <p class="text-blue-900">This document provides documentation for the Library Management System API. The API allows users to register, login, manage books, and handle book transactions.</p>
-      </section>
+            <section id="base-url" class="hidden">
+                <h2>Base URL</h2>
+                <p>The base URL for all API endpoints is: <code>/api/v1</code></p>
+                                <h2>Authentication</h2>
+                <p>
+                    Authentication is required for most endpoints. Use the login endpoint to obtain an authentication token.
+                </p>
+                <h3>Available Credentials</h3>
+                <p>For testing purposes, you can use the following credentials:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Password</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>admin@gmail.com</td>
+                            <td>admin123</td>
+                        </tr>
+                        <tr>
+                            <td>user1@gmail.com</td>
+                            <td>user@1</td>
+                        </tr>
+                        <tr>
+                            <td>user2@gmail.com</td>
+                            <td>user@2</td>
+                        </tr>
+                        <tr>
+                            <td>user3@gmail.com</td>
+                            <td>user@3</td>
+                        </tr>
+                        <tr>
+                            <td>user4@gmail.com</td>
+                            <td>user@4</td>
+                        </tr>
+                        <tr>
+                            <td>user5@gmail.com</td>
+                            <td>user@5</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Note: These credentials are for testing purposes only. In a production environment, never expose passwords in client-side code or documentation.</p>
+            </section>
 
-      <section id="base-url" class="mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Base URL</h2>
-        <p class="text-blue-900">The base URL for all API endpoints is: <code class="bg-blue-100 p-1 rounded text-blue-800">/api/v1</code></p>
-      </section>
+            <section id="endpoints" class="hidden">
+                <h2>Endpoints</h2>
+                <div class="endpoint">
+                    <h3>Test</h3>
+                    <div class="route">
+                        <h4><span class="method">GET</span>/test</h4>
+                        <p>Test if the API is working.</p>
+                    </div>
+                </div>
 
-      <section id="authentication" class="mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Authentication</h2>
-        <p class="text-blue-900">Authentication is required for most endpoints. Use the login endpoint to obtain an authentication token.</p>
-      </section>
+                <div class="endpoint">
+                    <h3>Users</h3>
+                    <div class="route">
+                        <h4><span class="method">POST</span>/users/registerUser</h4>
+                        <p>Register a new user.</p>
+                        <p>Body:</p>
+                        <pre><code>{
+  "email": "user@example.com",
+  "password": "password123"
+}</code></pre>
+                    </div>
+                    <div class="route">
+                        <h4><span class="method">POST</span>/users/loginUser</h4>
+                        <p>Authenticate a user and receive a token.</p>
+                        <p>Body:</p>
+                        <pre><code>{
+  "email": "user@example.com",
+  "password": "password123"
+}</code></pre>
+                    </div>
+                </div>
 
-      <section id="endpoints" class="mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Endpoints</h2>
-        
-        <h3 class="text-xl font-semibold mt-4 mb-2 text-blue-700">Test</h3>
-        <ul class="list-disc list-inside ml-4 text-blue-900">
-          <li><strong>Test API:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/test</code></li>
-        </ul>
+                <div class="endpoint">
+                    <h3>Books</h3>
+                    <div class="route">
+                        <h4><span class="method">GET</span>/</h4>
+                        <p>Retrieve a list of all books.</p>
+                    </div>
+                    <div class="route">
+                        <h4><span class="method">POST</span>/insertBook</h4>
+                        <p>Add a new book to the library.</p>
+                        <p>Body:</p>
+                        <pre><code>{
+  "boofRefId": "NCERT-PHYEDU-9",
+  "name": "NCERT Physical Education Class 9",
+  "author": "NCERT",
+  "category": "Physical Education",
+  "rentPerDay": 15
+}</code></pre>
+                    </div>
+                    <div class="route">
+                        <h4><span class="method">GET</span>/books/:id</h4>
+                        <p>Retrieve a specific book by its ID.</p>
+                        <p>Example: <code>/books/HC-VERMA-1</code></p>
+                    </div>
+                    <div class="route">
+                        <h4><span class="method">GET</span>/books/search</h4>
+                        <p>Search for books by name.</p>
+                        <p>Query: <code>?term=NCERT</code></p>
+                    </div>
+                    <div class="route">
+                        <h4><span class="method">GET</span>/books/rentRange</h4>
+                        <p>Search for books within a specific rent range.</p>
+                        <p>Query: <code>?min=10&max=20</code></p>
+                    </div>
+                    <div class="route">
+                        <h4><span class="method">GET</span>/books/filter</h4>
+                        <p>Advanced search for books with multiple filters.</p>
+                        <p>
+                            Query:
+                            <code>?category=Science&term=Physics&minRent=0&maxRent=40</code>
+                        </p>
+                    </div>
+                </div>
 
-        <h3 class="text-xl font-semibold mt-4 mb-2 text-blue-700">Users</h3>
-        <ul class="list-disc list-inside ml-4 text-blue-900">
-          <li><strong>Register User:</strong> POST <code class="bg-blue-100 p-1 rounded text-blue-800">/users/registerUser</code></li>
-          <li><strong>Login User:</strong> POST <code class="bg-blue-100 p-1 rounded text-blue-800">/users/loginUser</code></li>
-        </ul>
+                <div class="endpoint">
+                    <h3>Transactions</h3>
+                    <div class="route">
+                        <h4><span class="method">POST</span>/transactions/issue</h4>
+                        <p>Issue a book to a user.</p>
+                        <p>Body:</p>
+                        <pre><code>{
+  "bookId": "66e2ad6c1a92d0ae33512fc2",
+  "userId": "66e2bcb2248e93fae21296a9"
+}</code></pre>
+                    </div>
+                    <div class="route">
+                        <h4><span class="method">POST</span>/transactions/return</h4>
+                        <p>Return a book from a user.</p>
+                        <p>Body:</p>
+                        <pre><code>{
+  "bookId": "66e2ad6c1a92d0ae33512fc2",
+  "userId": "66e2bcb2248e93fae21296a9"
+}</code></pre>
+                    </div>
+                    <div class="route">
+                        <h4><span class="method">GET</span>/transactions/bookHistory</h4>
+                        <p>Retrieve the transaction history for a specific book.</p>
+                        <p>Query: <code>?bookName=NCERT Mathematics Class 10</code></p>
+                    </div>
+                    <div class="route">
+                        <h4><span class="method">GET</span>/transactions/bookRent</h4>
+                        <p>Get the total rent collected for a specific book.</p>
+                        <p>Query: <code>?bookName=NCERT Mathematics Class 10</code></p>
+                    </div>
+                    <div class="route">
+                        <h4><span class="method">GET</span>/transactions/bookIssued</h4>
+                        <p>Retrieve all books currently issued to a specific user.</p>
+                        <p>Query: <code>?userId=66e2bcb2248e93fae21296a9</code></p>
+                    </div>
+                    <div class="route">
+                        <h4>
+                            <span class="method">GET</span>/transactions/bookDateRange
+                        </h4>
+                        <p>
+                            Retrieve all book transactions within a specific date range.
+                        </p>
+                        <p>
+                            Query: <code>?startDate=2024-09-12&endDate=2024-09-13</code>
+                        </p>
+                    </div>
+                </div>
+            </section>
 
-        <h3 class="text-xl font-semibold mt-4 mb-2 text-blue-700">Books</h3>
-        <ul class="list-disc list-inside ml-4 text-blue-900">
-          <li><strong>Get All Books:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/</code></li>
-          <li><strong>Insert Book:</strong> POST <code class="bg-blue-100 p-1 rounded text-blue-800">/insertBook</code></li>
-          <li><strong>Get Book by ID:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/books/:id</code></li>
-          <li><strong>Search Books:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/books/search</code></li>
-          <li><strong>Search Books by Rent Range:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/books/rentRange</code></li>
-          <li><strong>Advanced Book Search:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/books/filter</code></li>
-        </ul>
+            <section id="data-models" class="hidden">
+                <h2>Data Models</h2>
+                <h3>User</h3>
+                <ul>
+                    <li>email (string)</li>
+                    <li>password (string)</li>
+                </ul>
+                <h3>Book</h3>
+                <ul>
+                    <li>boofRefId (string)</li>
+                    <li>name (string)</li>
+                    <li>author (string)</li>
+                    <li>category (string)</li>
+                    <li>rentPerDay (number)</li>
+                </ul>
+                <h3>Transactions</h3>
+                <ul>
+                    <li>bookId (string)</li>
+                    <li>userId (string)</li>
+                    <li>issueDate (date)</li>
+                    <li>returnDate (date)</li>
+                    <li>rentAmount (number)</li>
+                    <li>status (['issued', 'returned'])</li>
+                </ul>
+            </section>
 
-        <h3 class="text-xl font-semibold mt-4 mb-2 text-blue-700">Transactions</h3>
-        <ul class="list-disc list-inside ml-4 text-blue-900">
-          <li><strong>Issue Book:</strong> POST <code class="bg-blue-100 p-1 rounded text-blue-800">/transactions/issue</code></li>
-          <li><strong>Return Book:</strong> POST <code class="bg-blue-100 p-1 rounded text-blue-800">/transactions/return</code></li>
-          <li><strong>Get Book History:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/transactions/bookHistory</code></li>
-          <li><strong>Get Total Rent for Book:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/transactions/bookRent</code></li>
-          <li><strong>Get Books Issued to User:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/transactions/bookIssued</code></li>
-          <li><strong>Get Books Issued in Date Range:</strong> GET <code class="bg-blue-100 p-1 rounded text-blue-800">/transactions/bookDateRange</code></li>
-        </ul>
-      </section>
-
-      <section id="data-models" class="mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Data Models</h2>
-        
-        <h3 class="text-xl font-semibold mt-4 mb-2 text-blue-700">User</h3>
-        <ul class="list-disc list-inside ml-4 text-blue-900">
-          <li>email (string)</li>
-          <li>password (string)</li>
-        </ul>
-
-        <h3 class="text-xl font-semibold mt-4 mb-2 text-blue-700">Book</h3>
-        <ul class="list-disc list-inside ml-4 text-blue-900">
-          <li>boofRefId (string)</li>
-          <li>name (string)</li>
-          <li>author (string)</li>
-          <li>category (string)</li>
-          <li>rentPerDay (number)</li>
-        </ul>
-      </section>
-
-      <section id="error-handling" class="mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Error Handling</h2>
-        <p class="text-blue-900">The API uses standard HTTP response codes to indicate the success or failure of requests. Detailed error messages are provided in the response body for debugging purposes.</p>
-      </section>
-
-      <section id="example-requests" class="mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Example Requests</h2>
-        <p class="text-blue-900">Here are some example requests demonstrating how to use routes with parameters and queries:</p>
-        <ol class="list-decimal list-inside ml-4 text-blue-900">
-          <li>Get a specific book by ID:<br />
-            <code class="bg-blue-100 p-1 rounded text-blue-800">GET /api/v1/books/HC-VERMA-1</code>
-          </li>
-          <li>Search for books with a specific term:<br />
-            <code class="bg-blue-100 p-1 rounded text-blue-800">GET /api/v1/books/search?term=NCERT</code>
-          </li>
-          <li>Search for books within a rent range:<br />
-            <code class="bg-blue-100 p-1 rounded text-blue-800">GET /api/v1/books/rentRange?min=10&amp;max=20</code>
-          </li>
-          <li>Advanced book search:<br />
-            <code class="bg-blue-100 p-1 rounded text-blue-800">GET /api/v1/books/filter?category=Science&amp;term=Physics&amp;minRent=0&amp;maxRent=40</code>
-          </li>
-          <li>Get book history:<br />
-            <code class="bg-blue-100 p-1 rounded text-blue-800">GET /api/v1/transactions/bookHistory?bookName=NCERT Mathematics Class 10</code>
-          </li>
-          <li>Get books issued to a specific user:<br />
-            <code class="bg-blue-100 p-1 rounded text-blue-800">GET /api/v1/transactions/bookIssued?userId=66e2bcb2248e93fae21296a9</code>
-          </li>
-          <li>Get books issued within a date range:<br />
-            <code class="bg-blue-100 p-1 rounded text-blue-800">GET /api/v1/transactions/bookDateRange?startDate=2024-09-12&amp;endDate=2024-09-13</code>
-          </li>
-        </ol>
-      </section>
+            <section id="example-requests" class="hidden">
+                <h2>Example Requests</h2>
+                <p>
+                    Here are some example requests demonstrating how to use routes with
+                    parameters and queries:
+                </p>
+                <ol>
+                    <li>
+                        Get a specific book by ID:
+                        <pre><code>GET /api/v1/books/HC-VERMA-1</code></pre>
+                    </li>
+                    <li>
+                        Search for books with a specific term:
+                        <pre><code>GET /api/v1/books/search?term=NCERT</code></pre>
+                    </li>
+                    <li>
+                        Search for books within a rent range:
+                        <pre><code>GET /api/v1/books/rentRange?min=10&max=20</code></pre>
+                    </li>
+                    <li>
+                        Advanced book search:
+                        <pre><code>GET /api/v1/books/filter?category=Science&term=Physics&minRent=0&maxRent=40</code></pre>
+                    </li>
+                    <li>
+                        Get book history:
+                        <pre><code>GET /api/v1/transactions/bookHistory?bookName=NCERT Mathematics Class 10</code></pre>
+                    </li>
+                    <li>
+                        Get books issued to a specific user:
+                        <pre><code>GET /api/v1/transactions/bookIssued?userId=66e2bcb2248e93fae21296a9</code></pre>
+                    </li>
+                    <li>
+                        Get books issued within a date range:
+                        <pre><code>GET /api/v1/transactions/bookDateRange?startDate=2024-09-12&endDate=2024-09-13</code></pre>
+                    </li>
+                </ol>
+            </section>
+        </main>
     </div>
-  </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll("main > section");
+            sections.forEach((section) => {
+                if (section.id === sectionId) {
+                    section.classList.remove("hidden");
+                } else {
+                    section.classList.add("hidden");
+                }
+            });
+        }
+    </script>
 </body>
+
 </html>
