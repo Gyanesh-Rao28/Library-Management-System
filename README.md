@@ -25,6 +25,38 @@ The base URL for all API endpoints is: `/api/v1`
 
 Authentication is required for most endpoints. Use the login endpoint to obtain an authentication token.
 
+### Credentials
+
+Credentials to access API's
+
+```json
+    {
+        "email": "admin@gmail.com",
+        "password": "admin123"
+    },
+    {
+        "email": "user1@gmail.com",
+        "password": "user@1",
+
+    },
+    {
+        "email": "user2@gmail.com",
+        "password": "user@2"
+    },
+    {
+        "email": "user3@gmail.com",
+        "password": "user@3"
+    },
+    {
+        "email": "user4@gmail.com",
+        "password": "user@4"
+    },
+    {
+        "email": "user5@gmail.com",
+        "password": "user@5"
+    }
+  ```
+
 ## Endpoints
 
 ### Test
