@@ -49,7 +49,7 @@ const issueBook = async (req: Request, res: Response) => {
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-   
+
         const transaction = new Transaction({
             bookId: book._id,
             userId: user._id,
@@ -70,11 +70,11 @@ const issueBook = async (req: Request, res: Response) => {
     }
 }
 
-const returnBook = async (req: Request, res: Response)=>{
+const returnBook = async (req: Request, res: Response) => {
 
     try {
         const { bookId, userId } = req.body
-    
+
         if (!bookId || !userId) {
             return res.status(400).json({ message: "All fields are required" });
         }
@@ -83,13 +83,13 @@ const returnBook = async (req: Request, res: Response)=>{
         if (!book) {
             return res.status(404).json({ message: "Book not found" });
         }
-        
-    
+
+
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-        
+
         const transaction = await Transaction.findOne({
             bookId: book._id,
             userId,
@@ -125,12 +125,12 @@ const returnBook = async (req: Request, res: Response)=>{
 
 }
 
-const bookHistory = async (req: Request, res: Response )=>{
+const bookHistory = async (req: Request, res: Response) => {
     try {
         const { bookName } = req.query;
-        
+
         const book = await Book.findOne({ name: bookName });
-        
+
         if (!book) {
             return res.status(404).json({ message: 'Book not found' });
         }
@@ -158,13 +158,13 @@ const bookHistory = async (req: Request, res: Response )=>{
             };
         }
 
-        res.status(200).json({result});
+        res.status(200).json({ result });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
     }
 }
 
-const getTotalRentBook = async (req: Request, res: Response) =>{
+const getTotalRentBook = async (req: Request, res: Response) => {
     try {
         const { bookName } = req.query;
 
@@ -192,7 +192,7 @@ const getTotalRentBook = async (req: Request, res: Response) =>{
 }
 
 
-const getBooksIssuedToPerson = async (req: Request, res: Response) =>{
+const getBooksIssuedToPerson = async (req: Request, res: Response) => {
     try {
         const { userId } = req.query;
 
@@ -219,7 +219,7 @@ const getBooksIssuedToPerson = async (req: Request, res: Response) =>{
     }
 }
 
-const getBooksIssuedInDateRange = async (req: Request, res: Response) =>{
+const getBooksIssuedInDateRange = async (req: Request, res: Response) => {
     try {
         const { startDate, endDate } = req.query;
 
@@ -243,6 +243,126 @@ const getBooksIssuedInDateRange = async (req: Request, res: Response) =>{
     }
 }
 
+const getTransactionGraph = async (req: Request, res: Response) => {
+    try {
+        const { from, to } = req.query;
+
+        if (!from || !to) {
+            return res.status(400).json({ message: 'Fields are required' });
+        }
+
+        const start = new Date(from as string);
+        const end = new Date(to as string);
 
 
-export { issueBook, returnBook, bookHistory, getTotalRentBook, getBooksIssuedToPerson, getBooksIssuedInDateRange };
+        const stats = await Transaction.aggregate([
+            {
+                $match: {
+                    $or: [
+                        { issueDate: { $gte: start, $lte: end } },
+                        { returnDate: { $gte: start, $lte: end } }
+                    ]
+                }
+            },
+            {
+                $project: {
+                    date: {
+                        $cond: [
+                            { $eq: ['$status', 'issued'] },
+                            '$issueDate',
+                            '$returnDate'
+                        ]
+                    },
+                    isIssued: { $eq: ['$status', 'issued'] },
+                    isReturned: { $eq: ['$status', 'returned'] }
+                }
+            },
+            {
+                $group: {
+                    _id: { $dateToString: { format: '%Y-%m-%d', date: '$date' } },
+                    issuedBooks: { $sum: { $cond: ['$isIssued', 1, 0] } },
+                    returnedBooks: { $sum: { $cond: ['$isReturned', 1, 0] } }
+                }
+            },
+            {
+                $sort: { _id: 1 }
+            }
+        ]);
+
+        const result = stats.map(day => ({
+            date: day._id,
+            issuedBooks: day.issuedBooks,
+            returnedBooks: day.returnedBooks
+        }));
+
+        res.json({
+            success: true,
+            message: "Transaction graph data retrieved successfully",
+            data: result
+        });
+    } catch (error) {
+        console.error('Error in getBookTransactionStats:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+const getTransactionGraph_ = async (req: Request, res: Response) => {
+    try {
+        const { from, to } = req.query;
+
+        if (!from || !to) {
+            return res.status(400).json({ success: false, message: 'From date and to date are required' });
+        }
+
+        const startDate = new Date(from as string);
+        const endDate = new Date(to as string);
+
+        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+            return res.status(400).json({ success: false, message: 'Invalid date format' });
+        }
+
+        const transactions = await Transaction.find({
+            $or: [
+                { issueDate: { $gte: startDate, $lte: endDate } },
+                { returnDate: { $gte: startDate, $lte: endDate } }
+            ]
+        }).lean();
+
+        const statsMap = new Map();
+
+        for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+            statsMap.set(d.toISOString().split('T')[0], { issuedBook: 0, returnedBook: 0 });
+        }
+
+        transactions.forEach(transaction => {
+            const issueDate = new Date(transaction.issueDate).toISOString().split('T')[0];
+            if (transaction.status === 'issued' && statsMap.has(issueDate)) {
+                statsMap.get(issueDate).issuedBook++;
+            }
+
+            if (transaction.returnDate) {
+                const returnDate = new Date(transaction.returnDate).toISOString().split('T')[0];
+                if (transaction.status === 'returned' && statsMap.has(returnDate)) {
+                    statsMap.get(returnDate).returnedBook++;
+                }
+            }
+        });
+
+        const result = Array.from(statsMap, ([date, stats]) => ({
+            date,
+            ...stats
+        }));
+
+        res.json({
+            success: true,
+            message: "Transaction graph data retrieved successfully",
+            data: result
+        });
+    } catch (error) {
+        console.error('Error in getTransactionGraph:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+
+
+export { issueBook, returnBook, bookHistory, getTotalRentBook, getBooksIssuedToPerson, getBooksIssuedInDateRange, getTransactionGraph, getTransactionGraph_ };
