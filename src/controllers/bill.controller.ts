@@ -254,7 +254,6 @@ const getTransactionGraph = async (req: Request, res: Response) => {
         const start = new Date(from as string);
         const end = new Date(to as string);
 
-
         const stats = await Transaction.aggregate([
             {
                 $match: {
@@ -289,12 +288,29 @@ const getTransactionGraph = async (req: Request, res: Response) => {
             }
         ]);
 
-        const result = stats.map(day => ({
-            date: day._id,
-            issuedBooks: day.issuedBooks,
-            returnedBooks: day.returnedBooks
-        }));
+        // Create a set of all dates in the range
+        const dateSet = new Set();
+        let currentDate = new Date(start);
+        while (currentDate <= end) {
+            dateSet.add(currentDate.toISOString().split('T')[0]);
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
 
+        // Create a map of existing data
+        const dataMap = new Map(stats.map(day => [day._id, day]));
+
+        // Fill in missing dates and create the result array
+        const result = Array.from(dateSet).map(date => {
+            const existingData = dataMap.get(date);
+            return {
+                date,
+                issuedBooks: existingData ? existingData.issuedBooks : 0,
+                returnedBooks: existingData ? existingData.returnedBooks : 0
+            };
+        });
+
+        console.log(result)
+        
         res.json({
             success: true,
             message: "Transaction graph data retrieved successfully",
@@ -311,15 +327,12 @@ const getTransactionGraph_ = async (req: Request, res: Response) => {
         const { from, to } = req.query;
 
         if (!from || !to) {
-            return res.status(400).json({ success: false, message: 'From date and to date are required' });
+            return res.status(400).json({ success: false, message: 'Fields are required' });
         }
 
         const startDate = new Date(from as string);
         const endDate = new Date(to as string);
 
-        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-            return res.status(400).json({ success: false, message: 'Invalid date format' });
-        }
 
         const transactions = await Transaction.find({
             $or: [
@@ -327,6 +340,7 @@ const getTransactionGraph_ = async (req: Request, res: Response) => {
                 { returnDate: { $gte: startDate, $lte: endDate } }
             ]
         }).lean();
+
 
         const statsMap = new Map();
 
@@ -336,13 +350,13 @@ const getTransactionGraph_ = async (req: Request, res: Response) => {
 
         transactions.forEach(transaction => {
             const issueDate = new Date(transaction.issueDate).toISOString().split('T')[0];
-            if (transaction.status === 'issued' && statsMap.has(issueDate)) {
+            if ( statsMap.has(issueDate)) {
                 statsMap.get(issueDate).issuedBook++;
             }
 
             if (transaction.returnDate) {
                 const returnDate = new Date(transaction.returnDate).toISOString().split('T')[0];
-                if (transaction.status === 'returned' && statsMap.has(returnDate)) {
+                if ( statsMap.has(returnDate)) {
                     statsMap.get(returnDate).returnedBook++;
                 }
             }
